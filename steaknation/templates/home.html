@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="container nav-text py-5 text-center">
+    Welcome to Steakhouse online! Good steak tastes even better when shared with family and friends so
+    make your reservation and join us for some of the best steak in the world!
+</div>
+{% if not current_user.is_authenticated %}
+<div class="container d-flex justify-content-center">
+    <a href="{{ url_for('login_page') }}" class="btn btn-sm login-btn">Login</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="div container-fluid w-100 main-content-header text-center py-4">
+    <h4>Whether fried, grilled or barbecued, steak is our passion...</h4>
+    {% if current_user.is_authenticated %}
+    <p class="log-text">Logged in: {{ current_user.fullname }}</p>
+    <a href="{{ url_for('logout_page') }}" class="btn btn-sm logout-btn">Logout</a>
+    {% endif %}
+</div>
+
+{% for i in range(data_list|length) %}
+<div class="container-fluid gx-0 d-flex justify-content-center">
+    <div class="row w-100 main-content-div">
+        {% if i % 2 != 0 %}
+        <div class="col-12 col-sm-6 img-div d-flex justify-content-center">
+            <img src="{{ data_list[i]['img'] }}" class="img main-img">
+        </div>
+        <div class="col text-center d-flex align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="content-heading"> {{ data_list[i]['heading'] }}</h2>
+                </div>
+                <div class="col-12 mt-4 text-div">
+                    {{ data_list[i]['data'] }}
+                </div>
+                <div class="col-12 mt-5 text-div">
+                    <small>{{ data_list[i]['image_source'] }}</small>
+                </div>
+            </div>
+        </div>
+        {% elif i % 2 == 0 %}
+        <div class="col text-center d-flex align-items-center">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="content-heading"> {{ data_list[i]['heading'] }}</h2>
+                </div>
+                <div class="col-12 mt-4 text-div">
+                    {{ data_list[i]['data'] }}
+                </div>
+                <div class="col-12 mt-5 text-div">
+                    <small>{{ data_list[i]['image_source'] }}</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 img-div d-flex justify-content-center">
+            <img src="{{ data_list[i]['img'] }}" class="img main-img ">
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% endblock %}

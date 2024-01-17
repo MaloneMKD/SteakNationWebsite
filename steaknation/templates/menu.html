@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="container nav-text py-5 text-center">
+    Happiness is when you take the first bite out of a nicely cooked steak, so take a look at our menu
+    see what we have to offer!
+</div>
+{% if not current_user.is_authenticated %}
+<div class="container d-flex justify-content-center">
+    <a href="{{ url_for('login_page') }}" class="btn btn-sm login-btn">Login</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="div container-fluid w-100 main-content-header text-center py-4">
+    <h4>Take a look at our menu...</h4>
+    {% if current_user.is_authenticated %}
+    <p class="log-text">Logged in: {{ current_user.fullname }}</p>
+    <a href="{{ url_for('logout_page') }}" class="btn btn-sm logout-btn">Logout</a>
+    {% endif %}
+</div>
+
+ <nav class="navbar navbar-nav pb-5" aria-current="page">
+    <div class="container-fluid justify-content-center menu-div">
+        <ul class="nav nav-pills" id="pills-tab" role="tablist">
+            <li class="nav-item px-4" role="presentation">
+                <button class="nav-link menu-btn active" id="food-pill" data-bs-toggle="pill"
+                        data-bs-target="#food-pill-pane" type="button" role="tab"
+                        aria-controls="food-pill-pane" aria-selected="true">
+                    Food Menu
+                </button>
+            </li>
+            <li class="nav-item px-4">
+                <button class="nav-link menu-btn" id="drinks-pill" data-bs-toggle="pill"
+                        data-bs-target="#drinks-pill-pane" type="button" role="tab"
+                        aria-controls="drinks-pill-pane" aria-selected="false">
+                    Drinks Menu
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content menu-tab-content container-fluid" id="myTabContent">
+          <div class="tab-pane fade show active home-content-container" id="food-pill-pane" role="tabpanel" aria-labelledby="food-pill">
+              <div class="row text-center mt-4">
+                  {% for i in range(5) %}
+                  <div class="col-12 category-div my-2">
+                      <h2>Food Category</h2>
+                      {% for i in range(4) %}
+                      <div class="row">
+                          <div class="col food-title">
+                              <h5>Food title</h5>
+                          </div>
+                          <div class="col description-div">
+                              <p>Food Description</p>
+                          </div>
+                          <div class="col price">
+                              <p>Food price</p>
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+          <div class="tab-pane fade" id="drinks-pill-pane" role="tabpanel" aria-labelledby="drinks-pill">
+               <div class="row text-center mt-4">
+                  {% for i in range(5) %}
+                  <div class="col-12 category-div my-2">
+                      <h2>Drinks Category</h2>
+                      {% for i in range(4) %}
+                      <div class="row">
+                          <div class="col food-title">
+                              <h5>Drink title</h5>
+                          </div>
+                          <div class="col description-div">
+                              <p>Drink Description</p>
+                          </div>
+                          <div class="col price">
+                              <p>Drink price</p>
+                          </div>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+        </div>
+    </div>
+</nav>
+{% endblock %}

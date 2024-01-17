@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block header %}
+<div class="container nav-text py-5 text-center">
+    Nothing like a great big steak, so make a reservation today!
+</div>
+{% endblock %}
+
+{% block content %}
+<div class="div container-fluid w-100 main-content-header text-center py-4">
+    {% if current_user.fullname != ADMIN_NAME and current_user.phone_number != ADMIN_PHONE_NUMBER %}
+    <h4>Make a reservation online...</h4>
+    {% endif %}
+    {% if current_user.is_authenticated %}
+    <p class="log-text">Logged in: {{ current_user.fullname }}</p>
+    <a href="{{ url_for('logout_page') }}" class="btn btn-sm logout-btn">Logout</a>
+    {% endif %}
+</div>
+
+<div class="container-fluid gx-0 px-5 main-content-div">
+    <nav class="navbar navbar-nav">
+        {% if current_user.fullname == ADMIN_NAME and current_user.phone_number == ADMIN_PHONE_NUMBER %}
+        <div class="container-fluid">
+            <div class="row w-100">
+                <div class="col-12 text-center">
+                    <h4>Administrator Mode</h4>
+                    <p>Below are all reservations</p>
+                </div>
+                <div class="col-12">
+                    <table class="table table-hover table-dark">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Number of People</th>
+                                <th>Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for i in range(all_users|length) %}
+                            {% for reservation in all_users[i].reservations %}
+                            <tr>
+                                <td>{{ all_users[i].fullname }}</td>
+                                <td>{{ all_users[i].phone_number }}</td>
+                                <td>{{ all_users[i].email }}</td>
+                                <td>{{ reservation.datetime.strftime("%A %d %B %Y") }}</td>
+                                <td>{{ reservation.datetime.strftime("%H:%M %p") }}</td>
+                                <td>{{ reservation.number_of_people }}</td>
+                                {% if reservation.comment %}
+                                <td>{{ reservation.comment }}</td>
+                                {% else %}
+                                <td>No comment given.</td>
+                                {% endif %}
+                            </tr>
+                            {% endfor %}
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <ul class="nav-pills nav">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="make-res-pill" data-bs-toggle="pill"
+                        data-bs-target="#make-res-pane" type="button" role="tab" aria-controls="make-res-pane"
+                        aria-selected="true">
+                    Make Reservation
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="my-res-pill" data-bs-toggle="pill"
+                        data-bs-target="#my-res-pane" type="button" role="tab" aria-controls="my-res-pane">
+                    My Reservations
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="update-account-pill" data-bs-toggle="pill"
+                        data-bs-target="#update-account-pane" type="button" role="tab" aria-controls="update-account-pane">
+                    My Account
+                </button>
+            </li>
+        </ul>
+
+        <div class="tab-content container-fluid" id="make-res-content">
+            <div class="tab-pane container-fluid fade show active make-res-container" id="make-res-pane"
+                  role="tabpanel" aria-labelledby="make-res-pill">
+                <form method="post">
+                    {{ form.hidden_tag() }}
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">We will contact you for confirmation...</legend>
+                        <div class="form-group mb-4">
+                            {{ form.date.label(class="form-control-label pb-2") }}
+
+                            {% if form.date.errors %}
+                                {{ form.date(class="form-control form-control-md is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.date.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.date(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-4">
+                            {{ form.time.label(class="form-control-label pb-2") }}
+
+                            {% if form.time.errors %}
+                                {{ form.time(class="form-control form-control-md is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.time.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.time(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-4">
+                            {{ form.num_of_people.label(class="form-control-label pb-2") }}
+                            {% if form.num_of_people.errors %}
+                                {{ form.num_of_people(class="form-control form-control-md is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.num_of_people.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.num_of_people(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+                        <div class="form-group mb-4">
+                            {{ form.comment.label(class="form-control-label pb-2") }}
+
+                            {% if form.comment.errors %}
+                                {{ form.comment(class="form-control form-control-md is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in form.comment.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ form.comment(class="form-control form-control-md") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <br>
+                    <div class="form-group">
+                        {{ form.submit(class="btn btn-warning") }}
+                    </div>
+                    <br>
+                </form>
+             </div>
+            <div class="tab-pane container fade my-res-container" id="my-res-pane"
+            role="tabpanel" aria-labelledby="my-res-pill">
+                {% if reservations %}
+                <div class="row d-flex justify-content-center">
+                    {% for reservation in reservations %}
+                    <div class="card col-12 mx-2 my-2">
+                        <div class="card-body">
+                            <h5 class="card-title">Reservation</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">For: {{ current_user.fullname }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Date: {{ reservation.datetime.date() }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted mb-5">Time: {{ reservation.datetime.time() }}</h6>
+                            <h6 class="card-subtitle mb-2 text-muted">Additional Comments:</h6>
+                             {% if reservation.comment %}
+                            <p class="card-text">{{ reservation.comment }}</p>
+                             {% else %}
+                             <p class="card-text">No comment given.</p>
+                             {% endif %}
+                            <button class="card-link btn btn-danger" data-bs-toggle="modal"
+                                    data-bs-target="#res-modal-{{ reservation.reservation_id }}">Delete</button>
+                            {% include "reservationModals.html" %}
+                        </div>
+                    </div>
+                    {% endfor %}
+             </div>
+            {% else %}
+                <div class="container text-center my-4">
+                    <h5>You do not have any reservations yet.</h5>
+                </div>
+            {% endif %}
+            </div>
+            <div class="tab-pane container-fluid fade update-account-container" id="update-account-pane"
+                  role="tabpanel" aria-labelledby="update-account-pill">
+                <div class="card mx-2 my-2">
+                     <div class="card-body">
+                        <h5 class="card-title">Details</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">Name: {{ current_user.fullname }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Phone number: {{ current_user.phone_number }}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted mb-5">email: {{ current_user.email }}</h6>
+
+                        <div class="row">
+                            <div class="col-12">
+                                <!--Update account button-->
+                                <h6>Update your account:</h6>
+                                {% include "updateAccountModal.html" %}
+                                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#update-modal">Update</button>
+                            </div>
+                            <div class="col-12 my-4">
+                                <!--Delete account button-->
+                                <h6>Delete your account:</h6>
+                                 {% include "accountModals.html" %}
+                                <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#acc-modal-{{ current_user.phone_number }}">Delete</button>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </nav>
+</div>
+{% endblock %}

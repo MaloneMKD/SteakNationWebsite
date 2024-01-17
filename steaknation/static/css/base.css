@@ -1,0 +1,207 @@
+.main-nav {
+    position: relative;
+    background-color: transparent;
+    overflow-x: clip;
+    /*height: 100vh*/
+}
+
+.nav-bg-image {
+    z-index: -1;
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+
+    animation: nav-image-out linear;
+    animation-timeline: view();
+    animation-range: exit;
+}
+
+@keyframes nav-image-out {
+    from {scale: 1; opacity: 1;}
+    to {scale: 1.2; opacity: 0.5;}
+}
+
+.nav-text {
+    font-size: calc(0.75*(1.5vh + 1.5vw));
+}
+
+.links-list .nav-link {
+    background-color: #9A031E;
+    color: white;
+}
+
+.links-list .nav-link:hover {
+    background-color: transparent;
+    color: white;
+}
+
+.main-nav-div {
+    width: 100%;
+    animation: header-fade-out linear;
+    animation-timeline: view();
+    animation-range: exit 10px;
+}
+
+@keyframes header-fade-out {
+    to {opacity: 0;}
+}
+
+
+.main-content-div {
+    background-color: #191919;
+    color: white;
+}
+
+.exp-button {
+    background-color: white;
+}
+
+.social-media-image {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    border: None;
+}
+
+.btn-sm {
+    background-color: #E36414;
+}
+
+.sm-btn {
+    background-color: #E36414;
+    width: 50%;
+}
+
+.tab-content-container {
+    color: white;
+}
+
+.brand-logo {
+    background-color: transparent;
+    border: None;
+}
+
+.bottom-logo {
+    width: 40%;
+    background-color: transparent;
+    border: None;
+}
+
+.footer-heading {
+    color: #FB8B24;
+    font-size: calc(0.75*(1vh + 1vw));
+}
+
+.main-row {
+    width: 100%;
+}
+
+.footer-container {
+    background-color: #9A031E;
+    color: white;
+    width: 100%;
+}
+
+.footer-section {
+    animation: fade-footer-in linear;
+    animation-timeline: view();
+    animation-range: entry;
+}
+
+@keyframes fade-footer-in {
+    from {opacity: 0;}
+    to {opacity:1;}
+}
+
+.page-desc-div {
+    color: white;
+    width: 100%;
+    /*font-size: 22px;*/
+}
+
+.navbar .nav-pills .nav-link {
+    background-color: #191919;
+    color: white;
+}
+
+.navbar .nav-pills .nav-link:hover {
+    background-color: #E36414;
+    color: white;
+}
+
+.navbar .nav-pills .active {
+    background-color: #FB8B24;
+    color: white;
+}
+
+
+/*Begin main page css*/
+
+.main-content-header {
+    background-color: #191919;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: #FB8B24;
+    width: 100px;
+}
+
+.text-div {
+    word-wrap: break-word;
+    word-break:break-all;
+}
+
+.main-img {
+    object-fit: contain;
+    width: 100%;
+    height: auto;
+    background-color: transparent;
+}
+
+@supports(animation-timeline: view()) {
+    .main-img {
+        scale: 0.9; opacity: 0.4;
+        animation: fade-in linear forwards;
+        animation-timeline: view();
+        animation-range: entry;
+    }
+}
+
+@keyframes fade-in {
+    /*from {scale: 0.85; opacity: 0.4;}*/
+    to {scale: 1; opacity: 1}
+}
+
+
+.content-heading {
+    color: #9A031E;
+}
+
+/*End main page css*/
+
+.login-btn {
+    color: white;
+    background-color: #191919;
+}
+
+.logout-btn {
+    color: #191919;
+    background-color: white;
+}
+
+.logout-btn:hover {
+    color: white;
+    background-color: transparent;
+}
+
+.footer-text {
+    color: white;
+}
+
+.menu-tab-content {
+    height: 80vh;
+    overflow-y: scroll;
+    border-top: 1px solid #F0F0F0;
+    border-bottom: 1px solid #F0F0F0;
+}
+

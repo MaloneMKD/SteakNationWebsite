@@ -1,0 +1,30 @@
+<!-- Modal - Confirm delete account -->
+<div class="modal fade" id="acc-modal-{{ current_user.phone_number }}" tabindex="-1" role="dialog"
+     aria-labelledby="acc-modal-{{ current_user.phone_number }}-label" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background-color: white">
+      <div class="modal-header">
+        <h5 class="modal-title" id="acc-modal-Label">Confirm</h5>
+        <button type="button"  class="close" data-bs-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="POST" action="{{ url_for('delete_account') }}">
+          {{ delete_acc_form.hidden_tag() }}
+
+          <h4 class="text-center">Are you sure you want to delete your account?</h4>
+          <br>
+          <h6 class="text-center">
+            By clicking "Delete", you will permanently delete your account.
+          </h6>
+          <br>
+          {{ delete_acc_form.submit(class="btn btn-danger btn-block") }}
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>

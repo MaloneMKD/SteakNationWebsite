@@ -1,0 +1,60 @@
+<!-- Modal - Confirm update account -->
+<div class="modal fade" id="update-modal" tabindex="-1" role="dialog"
+     aria-labelledby="modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="background-color: white">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-Label">Enter new details</h5>
+                <button type="button"  class="close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('update_account') }}">
+                {{ update_account.hidden_tag() }}
+
+                    <h6 class="text-center">Are you sure you want to update your account data?</h6>
+                    <h6 class="text-center">
+                    By clicking "Update", you will change your email or password.
+                    </h6>
+
+                <div class="form-group my-4">
+                    {{ update_account.change_email.label(class="form-control-label pb-2") }}
+
+                    {% if update_account.change_email.errors %}
+                    {{ update_account.change_email(class="form-control form-control-md is-invalid",
+                                                    placeholder="None@email.com") }}
+                    <div class="invalid-feedback">
+                        {% for error in update_account.change_email.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ update_account.change_email(class="form-control form-control-md",
+                                                    placeholder=current_user.email or "None@email.com") }}
+                    {% endif %}
+                </div>
+                <div class="form-group mb-4">
+                    {{ update_account.change_password.label(class="form-control-label pb-2") }}
+
+                    {% if update_account.change_password.errors %}
+                    {{ update_account.change_password(class="form-control form-control-md is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in update_account.change_password.errors %}
+                        <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    {{ update_account.change_password(class="form-control form-control-md") }}
+                    {% endif %}
+                </div>
+                <br>
+                {{ update_account.submit(class="btn btn-danger btn-block") }}
+                </form>
+                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+  </div>
+</div>
